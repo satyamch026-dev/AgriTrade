@@ -40,25 +40,23 @@ app.secret_key = 'AgriTrade-Secret-Key-Change-This'
 CORS(app, supports_credentials=True)
 
 
-# =========================================================
 # DATABASE
 # =========================================================
-# DATABASE
-# =========================================================
+DB_USER = os.environ.get("MYSQLUSER")
+DB_PASSWORD = os.environ.get("MYSQLPASSWORD")
+DB_HOST = os.environ.get("MYSQLHOST")
+DB_PORT = os.environ.get("MYSQLPORT", "3306")
+DB_NAME = os.environ.get("MYSQLDATABASE")
+
 mysql_url = (
     f"mysql+pymysql://{os.getenv('MYSQLUSER')}:"
     f"{quote_plus(os.getenv('MYSQLPASSWORD', ''))}@"
     f"{os.getenv('MYSQLHOST')}:"
-    f"{os.getenv('MYSQLPORT', '3306')}/"
+    f"{os.getenv('MYSQLPORT') or '3306'}/"
     f"{os.getenv('MYSQLDATABASE')}"
 )
 
 app.config["SQLALCHEMY_DATABASE_URI"] = mysql_url
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-print("MYSQLHOST =", os.getenv("MYSQLHOST"))
-print("MYSQLPORT =", os.getenv("MYSQLPORT"))
-print("MYSQLUSER =", os.getenv("MYSQLUSER"))
-print("MYSQLDATABASE =", os.getenv("MYSQLDATABASE"))
 
 db.init_app(app)
 
