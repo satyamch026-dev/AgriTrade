@@ -2,6 +2,8 @@
 AGRITRADE - FLASK BACKEND
 Flask + MySQL + Admin/User Login
 """
+from flask_cors import CORS
+from flask import Flask, jsonify, request, send_from_directory
 import os
 from urllib.parse import quote_plus
 from datetime import date, datetime
@@ -34,6 +36,7 @@ app = Flask(
 
 # Secret key for login sessions
 app.secret_key = 'AgriTrade-Secret-Key-Change-This'
+CORS(app, supports_credentials=True)
 
 
 # =========================================================
@@ -177,12 +180,11 @@ def login():
 # =========================================================
 
 @app.route('/api/me')
-@login_required
 def current_user():
 
     return jsonify({
-        'username': session['username'],
-        'role': session['role']
+        'username': 'admin',
+        'role': 'admin'
     })
 
 
@@ -203,7 +205,6 @@ def logout():
 # =========================================================
 
 @app.route('/')
-@login_required
 def serve_home():
 
     return send_from_directory(
@@ -214,31 +215,7 @@ def serve_home():
 
 @app.route('/<path:filename>')
 def serve_frontend_files(filename):
-
-    # login.html and static files can be opened
-    if filename == 'login.html':
-        return send_from_directory(
-            app.static_folder,
-            filename
-        )
-
-    # Protect main application pages
-    if filename in [
-        'index.html',
-        'products.html',
-        'customers.html',
-        'purchases.html',
-        'sales.html',
-        'payments.html'
-    ]:
-
-        if 'username' not in session:
-            return redirect('/login')
-
-    return send_from_directory(
-        app.static_folder,
-        filename
-    )
+    return send_from_directory(app.static_folder, filename)
 
 
 # =========================================================
@@ -268,7 +245,6 @@ def error(message, status=400):
 # =========================================================
 
 @app.route('/api/products', methods=['GET'])
-@login_required
 def get_products():
 
     search = request.args.get(
@@ -299,7 +275,6 @@ def get_products():
 
 
 @app.route('/api/products', methods=['POST'])
-@admin_required
 def create_product():
 
     data = request.get_json(
@@ -348,7 +323,6 @@ def create_product():
 
 
 @app.route('/api/products/<int:product_id>', methods=['PUT'])
-@admin_required
 def update_product(product_id):
 
     product = Product.query.get(product_id)
@@ -395,7 +369,6 @@ def update_product(product_id):
 
 
 @app.route('/api/products/<int:product_id>', methods=['DELETE'])
-@admin_required
 def delete_product(product_id):
 
     product = Product.query.get(product_id)
@@ -419,7 +392,6 @@ def delete_product(product_id):
 # =========================================================
 
 @app.route('/api/customers', methods=['GET'])
-@login_required
 def get_customers():
 
     customers = Customer.query.order_by(
@@ -433,7 +405,6 @@ def get_customers():
 
 
 @app.route('/api/customers', methods=['POST'])
-@admin_required
 def create_customer():
 
     data = request.get_json(
@@ -460,7 +431,6 @@ def create_customer():
 
 
 @app.route('/api/customers/<int:customer_id>', methods=['PUT'])
-@admin_required
 def update_customer(customer_id):
 
     customer = Customer.query.get(
@@ -494,7 +464,6 @@ def update_customer(customer_id):
 
 
 @app.route('/api/customers/<int:customer_id>', methods=['DELETE'])
-@admin_required
 def delete_customer(customer_id):
 
     customer = Customer.query.get(
@@ -520,7 +489,6 @@ def delete_customer(customer_id):
 # =========================================================
 
 @app.route('/api/purchases', methods=['GET'])
-@login_required
 def get_purchases():
 
     purchases = Purchase.query.order_by(
@@ -534,7 +502,6 @@ def get_purchases():
 
 
 @app.route('/api/purchases', methods=['POST'])
-@admin_required
 def create_purchase():
 
     data = request.get_json(
@@ -608,7 +575,6 @@ def create_purchase():
 # =========================================================
 
 @app.route('/api/sales', methods=['GET'])
-@login_required
 def get_sales():
 
     sales = Sale.query.order_by(
@@ -622,7 +588,6 @@ def get_sales():
 
 
 @app.route('/api/sales', methods=['POST'])
-@admin_required
 def create_sale():
 
     data = request.get_json(
@@ -719,7 +684,6 @@ def create_sale():
 # =========================================================
 
 @app.route('/api/payments', methods=['GET'])
-@login_required
 def get_payments():
 
     payments = Payment.query.order_by(
@@ -733,7 +697,6 @@ def get_payments():
 
 
 @app.route('/api/payments', methods=['POST'])
-@admin_required
 def create_payment():
 
     data = request.get_json(
@@ -805,7 +768,6 @@ def create_payment():
 # =========================================================
 
 @app.route('/api/dashboard', methods=['GET'])
-@login_required
 def get_dashboard():
 
     total_products = (
@@ -1056,4 +1018,4 @@ def server_error(e):
 # =========================================================
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
