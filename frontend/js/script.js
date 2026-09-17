@@ -3,7 +3,7 @@
    Flask + MySQL Backend API
    ========================================================= */
 
-const API_BASE_URL = 'http://127.0.0.1:5000';
+fetch("https://marvelous-trust-production-1570.up.railway.app/api/products")
 
 const API_ENDPOINTS = {
   dashboard: `${API_BASE_URL}/api/dashboard`,
