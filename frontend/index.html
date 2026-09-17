@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AgriTrade grain trading database management dashboard.">
+  <title>AgriTrade | Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app-body">
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="AgriTrade dashboard">
+      <span class="brand-mark"><i class="fa-solid fa-wheat-awn"></i></span>
+      <span class="brand-name">AGRITRADE</span>
+    </a>
+    <div class="topbar-actions">
+      <label class="header-search" aria-label="Search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input id="globalSearch" type="search" placeholder="Search...">
+      </label>
+      <button class="profile-button" type="button" aria-label="Admin menu">
+        <span class="avatar">A</span>
+        <span class="profile-name">Admin</span>
+        <i class="fa-solid fa-chevron-down"></i>
+      </button>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <aside class="sidebar">
+      <nav class="sidebar-nav" aria-label="Main navigation">
+        <a class="sidebar-link active" href="index.html"><i class="fa-solid fa-grid-2"></i><span>Dashboard</span></a>
+        <a class="sidebar-link" href="products.html"><i class="fa-solid fa-boxes-stacked"></i><span>Products</span></a>
+        <a class="sidebar-link" href="index.html"><i class="fa-solid fa-users"></i><span>Customers</span></a>
+        <a class="sidebar-link" href="index.html"><i class="fa-solid fa-truck-field"></i><span>Suppliers</span></a>
+        <a class="sidebar-link" href="index.html"><i class="fa-solid fa-cart-shopping"></i><span>Sales</span></a>
+        <a class="sidebar-link" href="index.html"><i class="fa-solid fa-bag-shopping"></i><span>Purchases</span></a>
+        <a class="sidebar-link" href="index.html"><i class="fa-solid fa-warehouse"></i><span>Inventory</span></a>
+        <a class="sidebar-link" href="index.html"><i class="fa-solid fa-money-check-dollar"></i><span>Payments</span></a>
+        <a class="sidebar-link" href="index.html"><i class="fa-solid fa-chart-column"></i><span>Reports</span></a>
+        <a class="sidebar-link" href="index.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+      </nav>
+      <div class="sidebar-footer">DBMS Project <span>•</span> v1.0</div>
+    </aside>
+
+    <main class="main-content">
+      <div class="page-heading">
+        <div>
+          <p class="eyebrow">BUSINESS MANAGEMENT</p>
+          <h1>Dashboard</h1>
+          <p>Overview of your grain trading business</p>
+        </div>
+        <a class="primary-button" href="products.html"><i class="fa-solid fa-boxes-stacked"></i> Manage Products</a>
+      </div>
+
+      <section class="stats-grid" aria-label="Business statistics">
+        <article class="stat-card"><div class="stat-icon"><i class="fa-solid fa-box"></i></div><div><span>Total Products</span><strong id="statTotalProducts">-</strong><small>Across all categories</small></div></article>
+        <article class="stat-card"><div class="stat-icon"><i class="fa-solid fa-users"></i></div><div><span>Total Customers</span><strong id="statTotalCustomers">-</strong><small>Registered buyers</small></div></article>
+        <article class="stat-card"><div class="stat-icon"><i class="fa-solid fa-truck-field"></i></div><div><span>Total Suppliers</span><strong id="statTotalSuppliers">-</strong><small>Active suppliers</small></div></article>
+        <article class="stat-card"><div class="stat-icon"><i class="fa-solid fa-arrow-trend-up"></i></div><div><span>Total Sales</span><strong id="statTotalSales">-</strong><small>All recorded sales</small></div></article>
+        <article class="stat-card"><div class="stat-icon"><i class="fa-solid fa-arrow-trend-down"></i></div><div><span>Total Purchases</span><strong id="statTotalPurchases">-</strong><small>All recorded purchases</small></div></article>
+        <article class="stat-card"><div class="stat-icon"><i class="fa-solid fa-warehouse"></i></div><div><span>Current Stock</span><strong id="statCurrentStock">-</strong><small>Live from database</small></div></article>
+      </section>
+
+      <section class="dashboard-grid">
+        <article class="panel sales-panel">
+          <div class="panel-header"><div><h2>Sales Overview</h2><p>Monthly sales performance</p></div><span class="panel-badge">Last 6 months</span></div>
+          <div class="chart-wrap"><canvas id="salesChart" aria-label="Sales overview chart"></canvas></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-header"><div><h2>Low Stock Products</h2><p>Products below minimum stock</p></div><a href="products.html" class="text-link">View all</a></div>
+          <div id="lowStockList" class="stock-list"></div>
+        </article>
+      </section>
+
+      <section class="panel transactions-panel">
+        <div class="panel-header"><div><h2>Recent Transactions</h2><p>Latest sales recorded in the system</p></div><span class="panel-badge">5 recent</span></div>
+        <div class="table-scroll">
+          <table class="data-table">
+            <thead><tr><th>Invoice</th><th>Customer</th><th>Product</th><th>Date</th><th>Quantity</th><th>Amount</th><th>Status</th></tr></thead>
+            <tbody id="recentTransactionsBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="js/script.js"></script>
+  <script>initDashboard();</script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AgriTrade products and inventory management.">
+  <title>AgriTrade | Products / Inventory</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app-body">
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="AgriTrade dashboard">
+      <span class="brand-mark"><i class="fa-solid fa-wheat-awn"></i></span><span class="brand-name">AGRITRADE</span>
+    </a>
+    <div class="topbar-actions">
+      <label class="header-search" aria-label="Search">
+        <i class="fa-solid fa-magnifying-glass"></i><input id="globalSearch" type="search" placeholder="Search...">
+      </label>
+      <button class="profile-button" type="button"><span class="avatar">A</span><span class="profile-name">Admin</span><i class="fa-solid fa-chevron-down"></i></button>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <aside class="sidebar">
+      <nav class="sidebar-nav" aria-label="Main navigation">
+        <a class="sidebar-link" href="index.html"><i class="fa-solid fa-grid-2"></i><span>Dashboard</span></a>
+        <a class="sidebar-link active" href="products.html"><i class="fa-solid fa-boxes-stacked"></i><span>Products</span></a>
+        <a class="sidebar-link" href="index.html"><i class="fa-solid fa-users"></i><span>Customers</span></a>
+        <a class="sidebar-link" href="index.html"><i class="fa-solid fa-truck-field"></i><span>Suppliers</span></a>
+        <a class="sidebar-link" href="index.html"><i class="fa-solid fa-cart-shopping"></i><span>Sales</span></a>
+        <a class="sidebar-link" href="index.html"><i class="fa-solid fa-bag-shopping"></i><span>Purchases</span></a>
+        <a class="sidebar-link" href="index.html"><i class="fa-solid fa-warehouse"></i><span>Inventory</span></a>
+        <a class="sidebar-link" href="index.html"><i class="fa-solid fa-money-check-dollar"></i><span>Payments</span></a>
+        <a class="sidebar-link" href="index.html"><i class="fa-solid fa-chart-column"></i><span>Reports</span></a>
+        <a class="sidebar-link" href="index.html"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
+      </nav>
+      <div class="sidebar-footer">DBMS Project <span>•</span> v1.0</div>
+    </aside>
+
+    <main class="main-content">
+      <div class="page-heading">
+        <div><p class="eyebrow">INVENTORY MANAGEMENT</p><h1>Products / Inventory</h1><p>Manage agricultural products and current stock</p></div>
+        <button id="addProductBtn" class="primary-button" type="button"><i class="fa-solid fa-plus"></i> Add Product</button>
+      </div>
+
+      <section class="panel product-panel">
+        <div class="product-toolbar">
+          <div class="product-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="productSearch" type="search" placeholder="Search Product..." autocomplete="off">
+          </div>
+          <span id="productCount" class="record-count">5 products</span>
+        </div>
+        <div class="table-scroll">
+          <table class="data-table product-table">
+            <thead><tr><th>Product ID</th><th>Product Name</th><th>Category</th><th>Variety</th><th>Unit</th><th>Current Stock</th><th>Purchase Price</th><th>Selling Price</th><th>Minimum Stock</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="productTableBody"></tbody>
+          </table>
+        </div>
+        <div id="emptyProducts" class="empty-state" hidden>No products match your search.</div>
+      </section>
+
+      <div class="api-note"><i class="fa-solid fa-code"></i><div><strong>Database-driven</strong><p>Product data is stored in MySQL and served through Flask, e.g. <code>GET /api/products?search=Paddy</code> and <code>POST /api/products</code>. Adding, editing and deleting here updates the database directly.</p></div></div>
+    </main>
+  </div>
+
+  <div id="productModal" class="modal-backdrop" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header"><div><p class="eyebrow">PRODUCT RECORD</p><h2 id="modalTitle">Add Product</h2></div><button id="closeModalBtn" class="icon-button" type="button" aria-label="Close"><i class="fa-solid fa-xmark"></i></button></div>
+      <form id="productForm" class="product-form">
+        <div class="form-grid">
+          <label>Product Name<input name="name" required placeholder="e.g. Maize"></label>
+          <label>Category<select name="category" required><option value="Grain">Grain</option><option value="Rice">Rice</option><option value="Oil Seed">Oil Seed</option><option value="Other">Other</option></select></label>
+          <label>Variety<input name="variety" required placeholder="e.g. Hybrid"></label>
+          <label>Unit<select name="unit"><option value="kg">kg</option><option value="quintal">quintal</option><option value="tonne">tonne</option></select></label>
+          <label>Current Stock<input name="stock" type="number" min="0" step="0.01" value="0" required></label>
+          <label>Purchase Price<input name="purchasePrice" type="number" min="0" step="0.01" value="0" required></label>
+          <label>Selling Price<input name="sellingPrice" type="number" min="0" step="0.01" value="0" required></label>
+          <label>Minimum Stock<input name="minimumStock" type="number" min="0" step="0.01" value="100" required></label>
+        </div>
+        <div class="modal-actions"><button id="cancelModalBtn" class="secondary-button" type="button">Cancel</button><button class="primary-button" type="submit"><i class="fa-solid fa-plus"></i> Add Product</button></div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+  <script>initProductsPage();</script>
+</body>
+</html>
