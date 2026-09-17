@@ -43,17 +43,20 @@ CORS(app, supports_credentials=True)
 # =========================================================
 # DATABASE
 # =========================================================
-database_url = os.environ.get("MYSQL_URL")
+DB_USER = os.environ.get("MYSQLUSER", "root")
+DB_PASSWORD = os.environ.get("MYSQLPASSWORD", "")
+DB_HOST = os.environ.get("MYSQLHOST", "localhost")
+DB_PORT = os.environ.get("MYSQLPORT", "3306")
+DB_NAME = os.environ.get("MYSQLDATABASE", "agritrade")
 
-if database_url:
-    database_url = database_url.replace(
-        "mysql://",
-        "mysql+pymysql://",
-        1
-    )
+password = quote_plus(DB_PASSWORD)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = database_url
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = (
+    f'mysql+pymysql://{DB_USER}:{password}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
+)
+
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db.init_app(app)
 
 
