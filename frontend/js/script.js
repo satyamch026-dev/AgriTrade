@@ -3,13 +3,14 @@
    Flask + MySQL Backend API
    ========================================================= */
 
-fetch("https://marvelous-trust-production-1570.up.railway.app/api/products")
+// fetch("https://marvelous-trust-production-1570.up.railway.app/api/products")
+
+const API_BASE_URL = "https://marvelous-trust-production-1570.up.railway.app";
 
 const API_ENDPOINTS = {
-  dashboard: `${API_BASE_URL}/api/dashboard`,
-  products: `${API_BASE_URL}/api/products`
+    dashboard: `${API_BASE_URL}/api/dashboard`,
+    products: `${API_BASE_URL}/api/products`
 };
-
 let currentProducts = [];
 let editingProductId = null;
 
