@@ -27,13 +27,14 @@ from models import db, Product, Customer, Purchase, Sale, Payment
 # =========================================================
 # FLASK APP
 # =========================================================
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 
 app = Flask(
     __name__,
-    static_folder='../frontend',
+    static_folder=FRONTEND_DIR,
     static_url_path=''
 )
-
 # Secret key for login sessions
 app.secret_key = 'AgriTrade-Secret-Key-Change-This'
 CORS(app, supports_credentials=True)
